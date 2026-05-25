@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Satark AI</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="selfcheck-page satark-page">
+    <header class="satark-header">
+      <div class="satark-brand">
+        <h1>Satark AI</h1>
+      </div>
+      <div class="satark-header-actions">
+        <label class="language-picker">
+          <span data-i18n="language">Language</span>
+          <select id="languageSelect" aria-label="Language">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="mr">मराठी</option>
+            <option value="ta">தமிழ்</option>
+            <option value="te">తెలుగు</option>
+            <option value="pa">ਪੰਜਾਬੀ</option>
+            <option value="kn">ಕನ್ನಡ</option>
+            <option value="bn">বাংলা</option>
+          </select>
+        </label>
+      </div>
+    </header>
+
+    <main class="satark-shell">
+      <section class="satark-detection">
+        <div class="satark-hero-copy">
+          <p class="eyebrow" data-i18n="misuseVerification">Account misuse verification</p>
+          <h2 data-i18n="heroTitle">Check if your PAN or phone number was used to open a suspicious account</h2>
+          <p data-i18n="heroBody">Satark AI checks identity misuse signals and shows a simple, masked safety result.</p>
+        </div>
+
+        <form id="identityCheckForm" class="satark-search-card">
+          <span id="consumerStatusBadge" class="satark-inline-status">Ready</span>
+
+          <div class="satark-tabs" role="tablist" aria-label="Identity type">
+            <button class="active" type="button" data-identity-type="pan">PAN</button>
+            <button type="button" data-identity-type="phone">Phone</button>
+          </div>
+
+          <label class="satark-input-label">
+            <span id="identityInputLabel">PAN number</span>
+            <input name="identifier" value="ABCDE1234F" autocomplete="off" inputmode="text" required />
+          </label>
+
+          <label class="satark-consent">
+            <input name="consent" type="checkbox" checked />
+            <span data-i18n="consentText">I consent to checking this identity number for account misuse signals</span>
+          </label>
+
+          <button class="satark-primary" type="submit">
+            <span data-icon="shield"></span>
+            <span data-i18n="runSelfCheck">Check safely</span>
+          </button>
+
+          <p class="satark-microcopy" data-i18n="privacyCopy">Your data is analyzed securely and never stored permanently.</p>
+        </form>
+
+        <div class="satark-voice-card">
+          <div>
+            <strong data-i18n="voiceTitle">Prefer speaking?</strong>
+            <span id="voiceStatus" data-i18n="voiceReady">Press the microphone and speak your PAN or phone number slowly.</span>
+          </div>
+          <div class="voice-actions">
+            <button id="startVoice" class="satark-voice-button" type="button">
+              <span data-icon="mic"></span>
+              <span data-i18n="speakNow">Speak now</span>
+            </button>
+            <button id="readHelp" class="satark-soft-button" type="button">
+              <span data-icon="volume"></span>
+              <span data-i18n="readHelp">Read help</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="resultSection" class="satark-result-section" aria-live="polite">
+        <div id="identityCheckResult" class="satark-result-card is-empty">
+          <div class="satark-score-ring" style="--score: 0">
+            <strong>--<small>/100</small></strong>
+            <span data-i18n="trustScore">Trust Score</span>
+          </div>
+          <div class="satark-result-copy">
+            <span class="satark-risk-badge safe" data-i18n="ready">Ready</span>
+            <h2 data-i18n="readyToCheck">Ready to check</h2>
+            <p data-i18n="readyBody">Enter your PAN or phone number, confirm consent, and run Satark AI.</p>
+          </div>
+        </div>
+
+        <details id="whyFlagged" class="satark-accordion">
+          <summary data-i18n="whyFlagged">Why flagged?</summary>
+          <ul id="flagReasons">
+            <li data-i18n="noFlagYet">No check has been run yet.</li>
+          </ul>
+        </details>
+
+        <div id="nextSteps" class="satark-recommendation">
+          <strong data-i18n="recommendedAction">Recommended Action</strong>
+          <span data-i18n="readyRecommendation">Run a check before sharing sensitive documents or making large transfers.</span>
+        </div>
+
+      </section>
+
+      <section class="satark-help">
+        <h2 data-i18n="contactHeading">Where to report</h2>
+        <div class="satark-help-list">
+          <article>
+            <strong data-i18n="cyberPortal">National Cyber Crime Portal</strong>
+            <p data-i18n="cyberDetail">Report at cybercrime.gov.in or call 1930 for cyber fraud assistance.</p>
+          </article>
+          <article>
+            <strong data-i18n="bankContact">Your bank or wallet provider</strong>
+            <p data-i18n="bankDetail">Ask for KYC dispute review and temporary restrictions on accounts you did not open.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="selfcheck.js"></script>
+  </body>
+</html>
