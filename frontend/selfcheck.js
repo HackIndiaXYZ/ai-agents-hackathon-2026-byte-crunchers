@@ -1,4 +1,4 @@
-const API = "";
+const API = window.API_BASE_URL || "";
 
 const LANG = {
   en: {
@@ -226,6 +226,76 @@ const LANG = {
     urgent: "অপব্যবহারের সম্ভাবনা",
   },
 };
+
+Object.assign(LANG, {
+  or: {
+    ...LANG.en,
+    speech: "or-IN",
+    language: "Language",
+    misuseVerification: "Account misuse verification",
+    heroTitle: "ଆପଣଙ୍କ PAN କିମ୍ବା ଫୋନ୍ ନମ୍ବରରେ ସନ୍ଦେହଜନକ ଖାତା ଖୋଲାଯାଇଛି କି ଯାଞ୍ଚ କରନ୍ତୁ",
+    heroBody: "Satark AI ପରିଚୟ ଦୁରୁପଯୋଗ ସଙ୍କେତ ଯାଞ୍ଚ କରି ସୁରକ୍ଷିତ, ମାସ୍କ୍ କରାଯାଇଥିବା ଫଳାଫଳ ଦେଖାଏ।",
+    consentText: "ମୁଁ ଏହି ପରିଚୟ ସଂଖ୍ୟାକୁ ଖାତା ଦୁରୁପଯୋଗ ସଙ୍କେତ ପାଇଁ ଯାଞ୍ଚ କରିବାକୁ ସମ୍ମତି ଦେଉଛି",
+    runSelfCheck: "ସୁରକ୍ଷିତ ଯାଞ୍ଚ କରନ୍ତୁ",
+    panLabel: "PAN number",
+    phoneLabel: "Phone number",
+    ready: "Ready",
+    checking: "Checking",
+    readyToCheck: "Ready to check",
+    readyBody: "PAN କିମ୍ବା ଫୋନ୍ ନମ୍ବର ଦିଅନ୍ତୁ, ସମ୍ମତି ଦିଅନ୍ତୁ ଏବଂ Satark AI ଚଲାନ୍ତୁ।",
+    noMisuse: "ଦୁରୁପଯୋଗ ମିଳିଲା ନାହିଁ",
+    review: "ସମ୍ଭାବ୍ୟ ମେଳ",
+    urgent: "ଦୁରୁପଯୋଗ ସମ୍ଭାବନା",
+    safeRecommendation: "କୌଣସି ସନ୍ଦେହଜନକ ଖାତା ମିଳିଲା ନାହିଁ। ତଥାପି କେବଳ ଅଧିକୃତ ସହାୟତାକୁ ଭରସା କରନ୍ତୁ।",
+    reviewRecommendation: "ବଡ଼ ଟ୍ରାନ୍ସଫର୍ ଏଡ଼ାନ୍ତୁ ଏବଂ ବ୍ୟାଙ୍କ କିମ୍ବା ଅଧିକୃତ ସହାୟତା ସହିତ ସତ୍ୟାପନ କରନ୍ତୁ।",
+    urgentRecommendation: "ଟଙ୍କା ପଠାନ୍ତୁ ନାହିଁ। ବ୍ୟାଙ୍କ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ, cybercrime.gov.in ରେ ରିପୋର୍ଟ କରନ୍ତୁ କିମ୍ବା 1930 କୁ କଲ୍ କରନ୍ତୁ।",
+  },
+  as: {
+    ...LANG.en,
+    speech: "as-IN",
+    language: "Language",
+    heroTitle: "আপোনাৰ PAN বা ফোন নম্বৰৰে সন্দেহজনক একাউন্ট খোলা হৈছে নেকি পৰীক্ষা কৰক",
+    heroBody: "Satark AI-এ পৰিচয় অপব্যৱহাৰৰ সংকেত পৰীক্ষা কৰি সুৰক্ষিত, মাস্ক কৰা ফলাফল দেখুৱায়।",
+    consentText: "মই এই পৰিচয় নম্বৰটো একাউন্ট অপব্যৱহাৰৰ সংকেতৰ বাবে পৰীক্ষা কৰিবলৈ সন্মতি দিছোঁ",
+    runSelfCheck: "সুৰক্ষিতভাৱে পৰীক্ষা কৰক",
+    readyBody: "PAN বা ফোন নম্বৰ দিয়ক, সন্মতি দিয়ক আৰু Satark AI চলাওক।",
+    noMisuse: "অপব্যৱহাৰ পোৱা নগ'ল",
+    review: "সম্ভাব্য মিল",
+    urgent: "অপব্যৱহাৰৰ সম্ভাৱনা",
+    reviewRecommendation: "ডাঙৰ ট্ৰান্সফাৰ এৰাই চলক আৰু বেংক বা চৰকাৰী সহায়ৰ সৈতে সত্যাপন কৰক।",
+    urgentRecommendation: "টকা প্ৰেৰণ নকৰিব। বেংকৰ সৈতে যোগাযোগ কৰক, cybercrime.gov.in-ত ৰিপ'ৰ্ট কৰক বা 1930-ত ফোন কৰক।",
+  },
+  bho: {
+    ...LANG.en,
+    speech: "hi-IN",
+    language: "भाषा",
+    heroTitle: "देखीं कि रउआ PAN या फोन नंबर से संदिग्ध खाता खुलल बा कि ना",
+    heroBody: "Satark AI पहचान के गलत इस्तेमाल के संकेत जांचेला आ सुरक्षित, छुपावल नतीजा देखावेला।",
+    consentText: "हम एह पहचान नंबर के खाता दुरुपयोग संकेत खातिर जांचे के सहमति देत बानी",
+    runSelfCheck: "सुरक्षित जांच करीं",
+    readyBody: "PAN या फोन नंबर डालीं, सहमति दीं आ Satark AI चलाईं।",
+    noMisuse: "दुरुपयोग ना मिलल",
+    review: "संभावित मेल",
+    urgent: "दुरुपयोग के संभावना",
+    reviewRecommendation: "बड़का ट्रांसफर से बचीं आ बैंक भा आधिकारिक सहायता से सत्यापन करीं।",
+    urgentRecommendation: "पइसा मत भेजीं। बैंक से संपर्क करीं, cybercrime.gov.in पर रिपोर्ट करीं या 1930 पर कॉल करीं।",
+  },
+  mai: {
+    ...LANG.en,
+    speech: "hi-IN",
+    language: "भाषा",
+    heroTitle: "देखू जे अहां के PAN वा फोन नंबर सँ संदिग्ध खाता खुलल अछि कि नहि",
+    heroBody: "Satark AI पहचान दुरुपयोग संकेत जाँचैत अछि आ सुरक्षित, मास्क कएल परिणाम देखबैत अछि।",
+    consentText: "हम एहि पहचान नंबर केँ खाता दुरुपयोग संकेत लेल जाँच करबाक सहमति दैत छी",
+    runSelfCheck: "सुरक्षित जाँच करू",
+    readyBody: "PAN वा फोन नंबर भरू, सहमति दिअ आ Satark AI चलाउ।",
+    noMisuse: "दुरुपयोग नहि भेटल",
+    review: "संभावित मिलान",
+    urgent: "दुरुपयोगक संभावना",
+    reviewRecommendation: "पैघ ट्रांसफर सँ बचू आ बैंक वा आधिकारिक सहायता सँ सत्यापन करू।",
+    urgentRecommendation: "धन नहि पठाउ। बैंक सँ संपर्क करू, cybercrime.gov.in पर रिपोर्ट करू वा 1930 पर कॉल करू।",
+  },
+});
 
 const state = {
   identityType: "pan",

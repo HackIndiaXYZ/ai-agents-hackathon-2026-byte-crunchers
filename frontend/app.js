@@ -1,4 +1,4 @@
-const API = "";
+const API = window.API_BASE_URL || "";
 
 const state = {
   events: [],
@@ -7,6 +7,7 @@ const state = {
   metrics: {},
   model: {},
   learningEvents: [],
+  adaptationLedger: [],
   latestDecision: null,
   filter: "all",
   paused: false,
@@ -38,6 +39,9 @@ const el = {
   confirmMule: document.querySelector("#confirmMule"),
   falsePositive: document.querySelector("#falsePositive"),
   feedbackStatus: document.querySelector("#feedbackStatus"),
+  exportNcrp: document.querySelector("#exportNcrp"),
+  ncrpOutput: document.querySelector("#ncrpOutput"),
+  lineageList: document.querySelector("#lineageList"),
 };
 
 const graphView = {
@@ -367,7 +371,34 @@ function render() {
   renderDecision(state.latestDecision);
   renderMetrics();
   renderLearningEvent();
+  renderLineage();
   renderGraph();
+}
+
+function renderLineage() {
+  if (!el.lineageList) return;
+  const items = state.adaptationLedger || [];
+  if (!items.length) {
+    el.lineageList.innerHTML = `
+      <article class="lineage-item empty">
+        <span>No adaptation entries yet</span>
+        <strong>Confirm a mule, mark a false positive, or ingest a cyber alert.</strong>
+        <p>The backend will log online calibration, entity-graph memory and lineage here.</p>
+      </article>
+    `;
+    return;
+  }
+  el.lineageList.innerHTML = items.slice(0, 8).map((item) => `
+    <article class="lineage-item">
+      <time>${formatTime(item.timestamp)}</time>
+      <div>
+        <span>${item.source} | ${item.region || "unknown region"} | ${item.weightShift || "calibrated"}</span>
+        <strong>${item.title}</strong>
+        <p>${item.detail}</p>
+        <small>${item.account} -> ${item.beneficiary} | ${item.graphStore} | ${item.embeddingStore}</small>
+      </div>
+    </article>
+  `).join("");
 }
 
 function inspectGraphNode(nodeId) {
@@ -486,6 +517,22 @@ async function sendFeedback(label) {
   setFeedbackLoading(activeButton, false, true);
 }
 
+async function exportNcrpPayload() {
+  if (!state.latestDecision) return;
+  el.exportNcrp.disabled = true;
+  el.exportNcrp.classList.add("loading");
+  try {
+    const payload = await api(`/api/ncrp-export?event_id=${encodeURIComponent(state.latestDecision.id)}`);
+    el.ncrpOutput.hidden = false;
+    el.ncrpOutput.textContent = JSON.stringify(payload, null, 2);
+    el.feedbackStatus.className = "feedback-status success";
+    el.feedbackStatus.textContent = "NCRP-format payload generated for cyber cell review and filing.";
+  } finally {
+    el.exportNcrp.disabled = false;
+    el.exportNcrp.classList.remove("loading");
+  }
+}
+
 function setFeedbackLoading(button, loading, success = false) {
   [el.confirmMule, el.falsePositive].forEach((item) => {
     item.disabled = loading;
@@ -543,6 +590,7 @@ el.resolveTop.addEventListener("click", resolveTopAlert);
 el.ingestForm.addEventListener("submit", submitTransaction);
 el.confirmMule.addEventListener("click", () => sendFeedback("confirmed_mule"));
 el.falsePositive.addEventListener("click", () => sendFeedback("false_positive"));
+el.exportNcrp.addEventListener("click", exportNcrpPayload);
 el.networkCanvas.addEventListener("click", (event) => {
   const rect = el.networkCanvas.getBoundingClientRect();
   const scaleX = el.networkCanvas.width / rect.width;

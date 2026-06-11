@@ -9,7 +9,7 @@
   <body>
     <header class="app-header">
       <div>
-        <p class="eyebrow">AI/ML fraud operations</p>
+        <p class="eyebrow">AML/FRAUD OPERATIONS</p>
         <h1>Adaptive Mule Intelligence Network</h1>
       </div>
       <div class="header-actions">
@@ -154,8 +154,13 @@
               Confirm mule
             </button>
             <button id="falsePositive" class="text-button">False positive</button>
+            <button id="exportNcrp" class="text-button" type="button">
+              <span data-icon="database"></span>
+              Export to NCRP Format
+            </button>
           </div>
           <div id="feedbackStatus" class="feedback-status" aria-live="polite">No feedback submitted for the current decision.</div>
+          <pre id="ncrpOutput" class="ncrp-output" hidden></pre>
         </div>
 
         <div class="panel graph-panel">
@@ -188,6 +193,20 @@
           </div>
           <div id="alertQueue" class="alert-queue"></div>
         </div>
+
+        <div class="panel lineage-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Model lineage</p>
+              <h2>AI Adaptation Ledger</h2>
+            </div>
+            <span class="status-badge neutral">Graph + online calibration</span>
+          </div>
+          <div class="lineage-note">
+            Base tabular model stays stable. Online adaptation updates feedback risk, graph-affinity weights and entity memory to avoid catastrophic forgetting.
+          </div>
+          <div id="lineageList" class="lineage-list" aria-live="polite"></div>
+        </div>
       </section>
 
       <section class="panel architecture-panel">
@@ -207,6 +226,7 @@
       </section>
     </main>
 
+    <script src="config.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
