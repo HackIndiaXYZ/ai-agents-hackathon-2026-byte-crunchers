@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Satark AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="selfcheck-page satark-page">
@@ -12,23 +15,6 @@
         <h1 data-i18n="brandName">Satark AI</h1>
       </div>
       <div class="satark-header-actions">
-        <label class="language-picker">
-          <span data-i18n="language">Language</span>
-          <select id="languageSelect" aria-label="Language">
-            <option value="en">English</option>
-            <option value="hi">हिन्दी</option>
-            <option value="mr">मराठी</option>
-            <option value="ta">தமிழ்</option>
-            <option value="te">తెలుగు</option>
-            <option value="pa">ਪੰਜਾਬੀ</option>
-            <option value="kn">ಕನ್ನಡ</option>
-            <option value="bn">বাংলা</option>
-            <option value="or">ଓଡ଼ିଆ</option>
-            <option value="as">অসমীয়া</option>
-            <option value="bho">भोजपुरी</option>
-            <option value="mai">मैथिली</option>
-          </select>
-        </label>
       </div>
     </header>
 
@@ -39,6 +25,7 @@
           <h2 data-i18n="heroTitle">Check if your PAN or phone number was used to open a suspicious account</h2>
           <p data-i18n="heroBody">Satark AI checks identity misuse signals and shows a simple, masked safety result.</p>
           <div id="languagePills" class="satark-language-pills" aria-label="Regional language routing">
+            <button type="button" data-language-pill="en">English</button>
             <button type="button" data-language-pill="hi">हिन्दी</button>
             <button type="button" data-language-pill="mr">मराठी</button>
             <button type="button" data-language-pill="te">తెలుగు</button>
