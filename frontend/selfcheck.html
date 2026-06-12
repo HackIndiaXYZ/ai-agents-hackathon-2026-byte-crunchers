@@ -9,7 +9,7 @@
   <body class="selfcheck-page satark-page">
     <header class="satark-header">
       <div class="satark-brand">
-        <h1>Satark AI</h1>
+        <h1 data-i18n="brandName">Satark AI</h1>
       </div>
       <div class="satark-header-actions">
         <label class="language-picker">
@@ -23,6 +23,10 @@
             <option value="pa">ਪੰਜਾਬੀ</option>
             <option value="kn">ಕನ್ನಡ</option>
             <option value="bn">বাংলা</option>
+            <option value="or">ଓଡ଼ିଆ</option>
+            <option value="as">অসমীয়া</option>
+            <option value="bho">भोजपुरी</option>
+            <option value="mai">मैथिली</option>
           </select>
         </label>
       </div>
@@ -34,6 +38,17 @@
           <p class="eyebrow" data-i18n="misuseVerification">Account misuse verification</p>
           <h2 data-i18n="heroTitle">Check if your PAN or phone number was used to open a suspicious account</h2>
           <p data-i18n="heroBody">Satark AI checks identity misuse signals and shows a simple, masked safety result.</p>
+          <div id="languagePills" class="satark-language-pills" aria-label="Regional language routing">
+            <button type="button" data-language-pill="hi">हिन्दी</button>
+            <button type="button" data-language-pill="mr">मराठी</button>
+            <button type="button" data-language-pill="te">తెలుగు</button>
+            <button type="button" data-language-pill="ta">தமிழ்</button>
+            <button type="button" data-language-pill="bn">বাংলা</button>
+            <button type="button" data-language-pill="or">ଓଡ଼ିଆ</button>
+            <button type="button" data-language-pill="as">অসমীয়া</button>
+            <button type="button" data-language-pill="bho">भोजपुरी</button>
+            <button type="button" data-language-pill="mai">मैथिली</button>
+          </div>
         </div>
 
         <form id="identityCheckForm" class="satark-search-card">
@@ -122,6 +137,7 @@
       </section>
     </main>
 
+    <script src="config.js"></script>
     <script src="selfcheck.js"></script>
   </body>
 </html>

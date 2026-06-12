@@ -28,6 +28,8 @@ data/
 - Decision engine outputs for allow, step-up authentication, transaction hold, debit freeze, and escalation.
 - Manual transaction ingest form connected to the backend.
 - Separate B2C Satark AI webpage where a user can verify whether a suspicious account was opened using their PAN or phone number.
+- AI Adaptation Ledger showing exactly how investigator feedback and regulatory feeds update online entity risk, graph affinity, and calibration memory.
+- NCRP-format export payload for suspicious mule-account reporting workflows.
 
 ## AI/ML backend design
 
@@ -37,6 +39,7 @@ The backend in `server.py` has four model layers:
 - `AdaptiveRiskModel`: a trained lightweight logistic classifier with calibrated thresholding, blended with anomaly score, rules score, graph score, and investigator feedback boost.
 - `GraphIntelligence`: mule-network risk propagation across accounts, beneficiaries, devices, phones, and cyber case IDs.
 - `record_feedback`: stores investigator labels and raises or lowers future linked-entity risk.
+- `adaptation_ledger`: an audit trail for online updates. The base tabular classifier remains stable, while feedback updates entity memory, graph-affinity sensitivity, and calibrated linked-risk boosts to avoid catastrophic forgetting.
 
 The model is dependency-free so it runs immediately. At startup, it trains on synthetic labeled fraud/mule patterns with overlapping benign cases and label noise, then calibrates its threshold on a validation split. The `/api/model` endpoint exposes validation accuracy, precision, recall, F1, confusion matrix counts, and threshold.
 
@@ -49,7 +52,7 @@ recall    0.911
 F1        0.932
 ```
 
-For production, replace the synthetic training generator with confirmed bank fraud labels and a trained XGBoost, LightGBM, logistic regression, or graph ML artifact.
+For production, replace the synthetic training generator with confirmed bank fraud labels and a trained XGBoost, LightGBM, logistic regression, or graph ML artifact. Keep online adaptation as a controlled layer around the model: update feature statistics, feedback risk, graph embeddings, thresholds, and case memory; retrain the base model only through a governed offline model registry.
 
 ## Add Kaggle datasets
 
@@ -98,7 +101,7 @@ PS_20174392719_1491204439457_log.csv
 
 The main intelligence dashboard links to a separate Satark AI page at `/selfcheck.html`. A consumer can enter PAN or phone number with consent, and the backend returns a masked result showing whether partner onboarding records contain suspicious account openings linked to that identifier.
 
-Satark AI is designed for senior citizens and first-time digital users: it has large touch targets, simple step-by-step text, language selection for English, Hindi, Marathi, Tamil, Telugu, Punjabi, Kannada, and Bengali, plus a browser-based voice assistant. Where supported by the browser, users can speak their PAN or phone number and hear the result and reporting guidance in the selected language.
+Satark AI is designed for senior citizens and first-time digital users: it has large touch targets, simple step-by-step text, language selection for English, Hindi, Marathi, Tamil, Telugu, Punjabi, Kannada, Bengali, Odia, Assamese, Bhojpuri, and Maithili, plus a browser-based voice assistant. Where supported by the browser, users can speak their PAN or phone number and hear the result and reporting guidance in the selected language.
 
 The prototype intentionally masks identifiers and simulates matching so no real PAN or phone data is stored. A production version should hash/tokenize identifiers, require explicit consent, integrate with regulated KYC/account-opening feeds, add OTP verification, and route positive matches into bank dispute, cybercrime, and account-freeze workflows.
 
@@ -221,6 +224,8 @@ GET  /api/adapt/build-instruction-dataset
 GET  /api/adapt/dataset-status?dataset_id=...
 GET  /api/state
 GET  /api/model
+GET  /api/lineage
+GET  /api/ncrp-export?event_id=...
 POST /api/transactions
 POST /api/cyber-alerts
 POST /api/identity-checks
@@ -231,6 +236,13 @@ POST /api/adapt/estimate
 POST /api/adapt/run
 POST /api/adapt/download
 ```
+
+## Adaptation and NCRP demo flow
+
+1. Open the dashboard and click `Inject cyber alert`.
+2. Click `Confirm mule` or `False positive` on the current decision.
+3. Watch `AI Adaptation Ledger` update with timestamped lineage showing the feedback source, affected account, graph store, embedding store, and weight shift.
+4. Click `Export to NCRP Format` to generate a structured JSON report with mule account, linked UPI handles, IFSC, transaction hash, reason codes, and linked fund-flow edges.
 
 Example transaction ingest:
 
@@ -279,7 +291,25 @@ Bank, TMS, fraud, cyber and regulatory feeds
 - Replace the simulated event generator in `app.js` with Kafka, Pulsar, API, or webhook ingestion.
 - Replace the in-memory store in `server.py` with PostgreSQL, Redis Streams, Kafka, or a fraud-event lake.
 - Replace the built-in `AdaptiveRiskModel` weights with a trained model artifact and calibrated probability thresholds.
-- Store entities and fund-flow edges in a graph database such as Neo4j, TigerGraph, Neptune, or Cosmos DB Gremlin.
+- Store entities and fund-flow edges in a graph database such as Neo4j, TigerGraph, Neptune, or Cosmos DB Gremlin, with Milvus or Pinecone for entity embeddings.
 - Train supervised models on confirmed fraud and mule labels, then combine them with anomaly detection and graph features.
 - Add privacy, consent logging, OTP verification, audit logging, role-based access, model explainability, and maker-checker controls before automated account action.
 - Integrate with case management, AML/TMS tooling, cybercrime ticketing, and regulatory reporting workflows.
+
+## Deploy
+
+Backend on Render:
+
+```powershell
+git push
+```
+
+Create a Render Blueprint from `render.yaml`, then add `ADAPT_API_KEY` in Render environment variables if you want live Adapt calls.
+
+Frontend on Vercel:
+
+```powershell
+vercel --prod
+```
+
+After Render gives you a backend URL, set `window.API_BASE_URL` in `frontend/config.js` to that URL for the deployed frontend, for example `https://adaptive-mule-backend.onrender.com`.

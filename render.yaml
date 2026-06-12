@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: adaptive-mule-backend
+    env: python
+    plan: free
+    rootDir: backend
+    buildCommand: ""
+    startCommand: "python server.py"
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 10000
+      - key: ADAPT_API_BASE_URL
+        value: https://api.adaptionlabs.ai/api/v1
